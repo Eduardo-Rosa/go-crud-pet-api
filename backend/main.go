@@ -2,9 +2,11 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"go-crud-pet-api/handlers"
 
@@ -13,6 +15,26 @@ import (
 )
 
 var db *sql.DB
+
+func connectDB() (*sql.DB, error) {
+	connStr := fmt.Sprintf("user=%s password=%s dbname=%s host=%s sslmode=%s",
+		os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"),
+		os.Getenv("DB_HOST"), os.Getenv("DB_SSLMODE"))
+
+	var err error
+	for i := 0; i < 10; i++ { // Tenta conectar 10 vezes
+		db, err = sql.Open("postgres", connStr)
+		if err == nil {
+			err = db.Ping()
+			if err == nil {
+				return db, nil
+			}
+		}
+		log.Println("Tentando conectar ao banco de dados... tentativa:", i+1)
+		time.Sleep(3 * time.Second) // Espera antes de tentar novamente
+	}
+	return nil, err
+}
 
 func main() {
 	// Conectar ao banco de dados

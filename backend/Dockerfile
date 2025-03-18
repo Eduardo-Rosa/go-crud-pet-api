@@ -1,4 +1,4 @@
-FROM golang:1.24
+FROM golang:1.24.0
 
 WORKDIR /app
 
@@ -7,8 +7,9 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o main .
+RUN go build -o go-crud-pet-api .
+RUN chmod +x go-crud-pet-api
 
 EXPOSE 8080
 
-CMD ["./main"]
+CMD ["./go-crud-pet-api"]
