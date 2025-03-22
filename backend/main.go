@@ -10,11 +10,39 @@ import (
 
 	"go-crud-pet-api/handlers"
 
+	"io/ioutil"
+	_ "io/ioutil"
+
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )
 
 var db *sql.DB
+
+func runMigrations(db *sql.DB) {
+	files, err := ioutil.ReadDir("./migrations")
+	if err != nil {
+		log.Fatalf("Erro ao ler o diretório de migrações: %v", err)
+	}
+
+	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
+
+		content, err := ioutil.ReadFile("./migrations/" + file.Name())
+		if err != nil {
+			log.Fatalf("Erro ao ler o arquivo de migração %s: %v", file.Name(), err)
+		}
+
+		_, err = db.Exec(string(content))
+		if err != nil {
+			log.Fatalf("Erro ao executar a migração %s: %v", file.Name(), err)
+		}
+
+		log.Printf("Migração %s executada com sucesso", file.Name())
+	}
+}
 
 func connectDB() (*sql.DB, error) {
 	connStr := fmt.Sprintf("user=%s password=%s dbname=%s host=%s sslmode=%s",
@@ -49,6 +77,8 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	runMigrations(db)
 
 	// Configurar o roteador
 	r := mux.NewRouter()

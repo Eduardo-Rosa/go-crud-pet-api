@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { Routes } from '@angular/router';
-
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 interface Pet {
   id: number;
@@ -19,10 +17,10 @@ interface Pet {
 @Component({
   selector: 'app-pet-list',
   standalone: true,
-  imports: [HttpClientModule,
-     CommonModule, 
-     FormsModule, 
-     RouterModule
+  imports: [
+    CommonModule,
+    FormsModule,
+    HttpClientModule
     ],
   templateUrl: './pet-list.component.html',
   styleUrls: ['./pet-list.component.css']
@@ -34,13 +32,13 @@ export class PetListComponent implements OnInit {
     name: '',
     species: '',
     breed: '',
-    age:0,
+    age: 0,
     birthDate: '',
     ownerName: ''
   };
   isEditing = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.loadPets();
@@ -87,7 +85,7 @@ export class PetListComponent implements OnInit {
 
   resetForm(): void {
     this.pet = {
-      id: 0,
+      id:0,
       name: '',
       species: '',
       breed: '',

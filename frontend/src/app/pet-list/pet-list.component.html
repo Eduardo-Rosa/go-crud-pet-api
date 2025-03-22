@@ -1,81 +1,84 @@
 <div class="container mt-5">
-  <h1 class="text-center mb-4">Pet Legal</h1>
+    <h1 class="text-center mb-4">Pet Manager</h1>
 
-  <!-- Formulário de Cadastro -->
-  <div class="card mb-4">
-    <div class="card-header bg-primary text-white">
-      <h5 class="card-title mb-0">Cadastrar Novo Pet</h5>
+    <!-- Formulário de Cadastro -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Cadastrar Novo Pet</h5>
+        </div>
+        <div class="card-body">
+            <form (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Nome do Pet</label>
+                        <input type="text" class="form-control" id="name" [(ngModel)]="pet.name" name="name" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="species" class="form-label">Espécie</label>
+                        <input type="text" class="form-control" id="species" [(ngModel)]="pet.species" name="species"
+                            required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="breed" class="form-label">Raça</label>
+                        <input type="text" class="form-control" id="breed" [(ngModel)]="pet.breed" name="breed">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="age" class="form-label">Idade</label>
+                        <input type="number" class="form-control" id="age" [(ngModel)]="pet.age" name="age">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="birthDate" class="form-label">Data de Nascimento</label>
+                        <input type="date" class="form-control" id="birthDate" [(ngModel)]="pet.birthDate"
+                            name="birthDate">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="ownerName" class="form-label">Nome do Dono(a)</label>
+                        <input type="text" class="form-control" id="ownerName" [(ngModel)]="pet.ownerName"
+                            name="ownerName" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            </form>
+        </div>
     </div>
-    <div class="card-body">
-      <form (ngSubmit)="onSubmit()">
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="name" class="form-label">Nome do Pet</label>
-            <input type="text" class="form-control" id="name" [(ngModel)]="pet.name" name="name" required>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="species" class="form-label">Espécie</label>
-            <input type="text" class="form-control" id="species" [(ngModel)]="pet.species" name="species" required>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="breed" class="form-label">Raça</label>
-            <input type="text" class="form-control" id="breed" [(ngModel)]="pet.breed" name="breed">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="age" class="form-label">Idade</label>
-            <input type="number" class="form-control" id="age" [(ngModel)]="pet.age" name="age">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="birthDate" class="form-label">Data de Nascimento</label>
-            <input type="date" class="form-control" id="birthDate" [(ngModel)]="pet.birthDate" name="birthDate">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="ownerName" class="form-label">Nome do Dono(a)</label>
-            <input type="text" class="form-control" id="ownerName" [(ngModel)]="pet.ownerName" name="ownerName" required>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
-      </form>
-    </div>
-  </div>
 
-  <!-- Lista de Pets -->
-  <div class="card">
-    <div class="card-header bg-success text-white">
-      <h5 class="card-title mb-0">Lista de Pets</h5>
+    <!-- Lista de Pets -->
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h5 class="card-title mb-0">Lista de Pets</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Espécie</th>
+                        <th>Raça</th>
+                        <th>Idade</th>
+                        <th>Data de Nascimento</th>
+                        <th>Dono(a)</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pet of pets">
+                        <td>{{ pet.name }}</td>
+                        <td>{{ pet.species }}</td>
+                        <td>{{ pet.breed }}</td>
+                        <td>{{ pet.age }}</td>
+                        <td>{{ pet.birthDate | date }}</td>
+                        <td>{{ pet.ownerName }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning me-2" (click)="editPet(pet)">Editar</button>
+                            <button class="btn btn-sm btn-danger" (click)="deletePet(pet.id)">Excluir</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="card-body">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Espécie</th>
-            <th>Raça</th>
-            <th>Idade</th>
-            <th>Data de Nascimento</th>
-            <th>Dono(a)</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let pet of pets">
-            <td>{{ pet.name }}</td>
-            <td>{{ pet.species }}</td>
-            <td>{{ pet.breed }}</td>
-            <td>{{ pet.age }}</td>
-            <td>{{ pet.birthDate | date }}</td>
-            <td>{{ pet.ownerName }}</td>
-            <td>
-              <button class="btn btn-sm btn-warning me-2" (click)="editPet(pet)">Editar</button>
-              <button class="btn btn-sm btn-danger" (click)="deletePet(pet.id)">Excluir</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>

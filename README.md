@@ -2,6 +2,19 @@
 
 Este repositório contém uma aplicação CRUD (Create, Read, Update, Delete) simples para gerenciar informações sobre pets. A aplicação foi desenvolvida em Go (Golang) e utiliza o framework **Gin** para gerenciamento de rotas e o **GORM** para interação com o banco de dados **PostgreSQL**. Além disso, a aplicação é configurada para ser executada em um ambiente Docker utilizando o `docker-compose`.
 
+## Funcionalidades
+
+- Cadastro de pets com nome, espécie, raça, idade, data de nascimento e nome do dono(a).
+- Listagem, edição e exclusão de pets.
+- Interface responsiva e estilizada com Bootstrap.
+
+## Tecnologias Utilizadas
+
+- **Backend:** Go (Mux, PostgreSQL)
+- **Frontend:** Angular (Bootstrap)
+- **Banco de Dados:** PostgreSQL
+- **Containerização:** Docker e Docker Compose
+
 ## Pré-requisitos
 
 Antes de executar a aplicação, certifique-se de que você possui os seguintes requisitos instalados em sua máquina:

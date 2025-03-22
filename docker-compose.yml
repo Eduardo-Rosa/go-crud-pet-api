@@ -1,33 +1,37 @@
-
+version: '3.8'
 services:
-  db:
-    image: postgres:13
-    container_name: postgres_db
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  app:
-    build: ./backend
+  backend:
     container_name: go_pet_api
+    build: 
+      context: ./backend
+    env_file:
+      - .env
     depends_on:
       - db
     ports:
       - "8080:8080"
-    env_file:
-      - .env
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    restart: always
     environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      DB_SSLMODE: disable
-
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: pet_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  frontend:
+    container_name: angular_pet_app
+    build: 
+      context: ./frontend
+    depends_on:
+      - db
+      - backend
+    restart: unless-stopped
+    ports:
+    - "4200:4200"
+    command: ng serve --host 0.0.0.0 --port 4200
 volumes:
   postgres_data:

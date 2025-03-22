@@ -1,19 +1,29 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { PetListComponent } from './pet-list/pet-list.component';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { AppComponent } from './app.component';
+
+
 
 export const routes: Routes = [
   { path: '', component: PetListComponent },
+  { path: 'pets', component: PetListComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes),
-    CommonModule,
-    FormsModule,
+  declarations: [
   ],
-  exports: [RouterModule],
+  imports: [
+    RouterModule.forRoot(routes),
+    FormsModule,
+    CommonModule
+],
+  providers: [],
+  exports: [RouterModule, FormsModule, CommonModule]
+  
 })
+
 export class AppRoutingModule { }
+export class AppModule {}

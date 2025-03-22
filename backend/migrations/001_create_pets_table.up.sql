@@ -1,9 +1,9 @@
-CREATE TABLE pets (
+CREATE TABLE IF NOT EXISTS pets (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    species VARCHAR(100) NOT NULL,
-    breed VARCHAR(100),
+    name VARCHAR(255) NOT NULL,
+    species VARCHAR(255) NOT NULL,
+    breed VARCHAR(255),
     age INT,
-    birth_date VARCHAR(30),
-    owner_name VARCHAR(100) NOT NULL
+    birth_date DATE,
+    owner_name VARCHAR(255)
 );
