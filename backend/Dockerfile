@@ -1,15 +1,22 @@
-FROM golang:1.20
+# Usar uma imagem base do Go
+FROM golang:1.20 AS build
 
+# Definir o diretório de trabalho
 WORKDIR /app
 
-COPY go.mod go.sum ./
-RUN go mod download
-
+# Copiar os arquivos do backend
 COPY . .
 
-RUN go build -o go-crud-pet-api
-RUN chmod +x go-crud-pet-api
+# Construir o binário do Go
+RUN go build -o main .
 
-EXPOSE 8080
+# Instalar o cliente PostgreSQL
+RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
 
-CMD ["./go-crud-pet-api"]
+# Copiar o script wait-for-db.sh
+COPY wait-for-db.sh /app/wait-for-db.sh
+RUN chmod +x /app/wait-for-db.sh
+
+# Configurar o comando de inicialização
+ENTRYPOINT ["/app/wait-for-db.sh"]
+CMD ["/app/main"]

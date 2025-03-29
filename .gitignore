@@ -1,6 +1,10 @@
 # Ignorar arquivos de configuração sensíveis
 .env
 *.env
+.dist
+dist
+
+
 
 # Ignorar dependências
 node_modules/
@@ -32,3 +36,4 @@ out/
 *.so
 *.a
 *.o
+.vscode 

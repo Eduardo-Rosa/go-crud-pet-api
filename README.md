@@ -46,7 +46,7 @@ A aplicação utiliza variáveis de ambiente para configurar a conexão com o ba
 POSTGRES_USER=root
 POSTGRES_PASSWORD=pass
 POSTGRES_DB=pet_db
-POSTGRES_HOST=db
+POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 ```
 

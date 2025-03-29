@@ -1,0 +1,14 @@
+# Ignorar dependências
+node_modules
+
+# Ignorar arquivos de build
+dist
+out-tsc
+
+# Ignorar arquivos de log e temporários
+*.log
+*.tmp
+
+# Ignorar arquivos de configuração de IDE/Editor
+.idea
+.vscode

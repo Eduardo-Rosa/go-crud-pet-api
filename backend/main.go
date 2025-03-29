@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 
 	"go-crud-pet-api/handlers"
 
@@ -45,38 +44,31 @@ func runMigrations(db *sql.DB) {
 }
 
 func connectDB() (*sql.DB, error) {
-	connStr := fmt.Sprintf("user=%s password=%s dbname=%s host=%s sslmode=%s",
+	connStr := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s sslmode=%s",
 		os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"),
-		os.Getenv("DB_HOST"), os.Getenv("DB_SSLMODE"))
+		os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_SSLMODE"))
 
-	var err error
-	for i := 0; i < 10; i++ { // Tenta conectar 10 vezes
-		db, err = sql.Open("postgres", connStr)
-		if err == nil {
-			err = db.Ping()
-			if err == nil {
-				return db, nil
-			}
-		}
-		log.Println("Tentando conectar ao banco de dados... tentativa:", i+1)
-		time.Sleep(3 * time.Second) // Espera antes de tentar novamente
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		return nil, err
 	}
-	return nil, err
+
+	if err := db.Ping(); err != nil {
+		return nil, err
+	}
+
+	return db, nil
 }
 
 func main() {
-	// Conectar ao banco de dados
-	connStr := "user=" + os.Getenv("DB_USER") +
-		" password=" + os.Getenv("DB_PASSWORD") +
-		" dbname=" + os.Getenv("DB_NAME") +
-		" host=" + os.Getenv("DB_HOST") +
-		" sslmode=" + os.Getenv("DB_SSLMODE")
 	var err error
-	db, err = sql.Open("postgres", connStr)
+	db, err := connectDB()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Erro ao conectar ao banco de dados: %v", err)
 	}
 	defer db.Close()
+
+	log.Println("Conexão com o banco de dados estabelecida com sucesso!")
 
 	runMigrations(db)
 

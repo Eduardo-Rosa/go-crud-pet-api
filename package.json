@@ -6,6 +6,7 @@
   "dependencies": {
     "@angular/cli": "^19.2.4",
     "@angular/core": "^19.2.3",
-    "@angular/forms": "^19.2.3"
+    "@angular/forms": "^19.2.3",
+    "bootstrap": "^5.3.3"
   }
 }

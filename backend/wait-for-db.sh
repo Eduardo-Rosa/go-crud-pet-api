@@ -1,8 +1,8 @@
 #!/bin/sh
 set -e
 
+echo "Aguardando o banco de dados ficar pronto..."
 until pg_isready -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER"; do
-  echo "Aguardando banco de dados..."
   sleep 2
 done
 
